@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Admin - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-12 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div>
+        <h1 class="font-serif text-3xl md:text-4xl leading-tight mb-2">
+          Painel Administrativo
+        </h1>
+        <p class="text-primary-foreground/80 text-sm">
+          Gerencie todos os agendamentos, projetos, serviços e portfólio do site
+        </p>
+      </div>
+      <a href="./dashboard.html" class="px-4 py-2 border border-primary-foreground/30 text-white text-sm font-medium rounded-md hover:bg-white/10">
+        Área do Cliente
+      </a>
+    </div>
+  </section>
+
+  <!-- Admin Stats Grid -->
+  <section class="py-8 border-b border-border">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div onclick="switchAdminTab('appointments')" class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm cursor-pointer hover:border-secondary transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <p id="adm-stat-apt-pending" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Agend. Pendentes</p>
+          </div>
+        </div>
+        <div onclick="switchAdminTab('projects')" class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm cursor-pointer hover:border-secondary transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          </div>
+          <div>
+            <p id="adm-stat-proj-new" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Novos Projetos</p>
+          </div>
+        </div>
+        <div onclick="switchAdminTab('portfolio')" class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm cursor-pointer hover:border-secondary transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <p id="adm-stat-portfolio-total" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Projetos no Portfólio</p>
+          </div>
+        </div>
+        <div onclick="switchAdminTab('services')" class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm cursor-pointer hover:border-secondary transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-green-100 text-green-600 flex items-center justify-center">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <p id="adm-stat-services-total" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Serviços Ativos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Tabs Navigation -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap border-b border-border mb-6 gap-2">
+        <button onclick="switchAdminTab('appointments')" id="adm-btn-appointments" class="adm-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-primary text-primary font-semibold">
+          Agendamentos
+        </button>
+        <button onclick="switchAdminTab('projects')" id="adm-btn-projects" class="adm-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+          Solicitações de Projetos
+        </button>
+        <button onclick="switchAdminTab('portfolio')" id="adm-btn-portfolio" class="adm-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+          Gestão de Portfólio
+        </button>
+        <button onclick="switchAdminTab('services')" id="adm-btn-services" class="adm-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+          Gestão de Serviços
+        </button>
+      </div>
+
+      <!-- Appointments Tab -->
+      <div id="adm-content-appointments" class="adm-tab-content">
+        <div id="adm-appointments-list" class="grid gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Projects Tab -->
+      <div id="adm-content-projects" class="adm-tab-content hidden">
+        <div id="adm-projects-list" class="grid gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Portfolio Tab -->
+      <div id="adm-content-portfolio" class="adm-tab-content hidden space-y-8">
+        <!-- New Project Form -->
+        <div class="bg-card border border-border rounded-lg p-6 shadow-sm space-y-4">
+          <h3 class="font-serif text-xl font-semibold text-foreground">Adicionar Novo Projeto ao Portfólio</h3>
+          <form id="add-portfolio-form" class="grid md:grid-cols-2 gap-4">
+            <label class="sr-only" for="pf-title">Título do Projeto</label>
+            <input id="pf-title" type="text" required placeholder="Título do Projeto *" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="pf-category">Categoria</label>
+            <select id="pf-category" required class="px-4 py-2 border border-border rounded-md text-sm bg-background">
+              <option value="Residencial">Residencial</option>
+              <option value="Comercial">Comercial</option>
+              <option value="Corporativo">Corporativo</option>
+              <option value="Outro">Outro</option>
+            </select>
+            <label class="sr-only" for="pf-area">Área</label>
+            <input id="pf-area" type="text" placeholder="Área (Ex: 450m²)" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="pf-year">Ano</label>
+            <input id="pf-year" type="text" placeholder="Ano (Ex: 2024)" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="pf-location">Localização</label>
+            <input id="pf-location" type="text" placeholder="Localização (Ex: Luanda, Angola)" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="pf-imageUrl">Caminho ou URL da Imagem</label>
+            <input id="pf-imageUrl" type="text" required placeholder="Caminho/URL da Imagem *" value="./assets/portifolio/image1.png" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="pf-description">Descrição</label>
+            <textarea id="pf-description" required rows="2" placeholder="Descrição *" class="md:col-span-2 px-4 py-2 border border-border rounded-md text-sm bg-background"></textarea>
+            <button type="submit" class="md:col-span-2 py-2.5 bg-secondary text-secondary-foreground font-semibold text-sm rounded-md hover:bg-secondary/90">
+              Salvar Projeto no Portfólio
+            </button>
+          </form>
+        </div>
+
+        <div id="adm-portfolio-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Services Tab -->
+      <div id="adm-content-services" class="adm-tab-content hidden space-y-8">
+        <!-- New Service Form -->
+        <div class="bg-card border border-border rounded-lg p-6 shadow-sm space-y-4">
+          <h3 class="font-serif text-xl font-semibold text-foreground">Adicionar Novo Serviço</h3>
+          <form id="add-service-form" class="grid md:grid-cols-2 gap-4">
+            <label class="sr-only" for="srv-title">Título do Serviço</label>
+            <input id="srv-title" type="text" required placeholder="Título do Serviço *" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="srv-slug">Slug do Serviço</label>
+            <input id="srv-slug" type="text" required placeholder="Slug/ID *" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="srv-group">Grupo do Serviço</label>
+            <select id="srv-group" required class="px-4 py-2 border border-border rounded-md text-sm bg-background">
+              <option value="principal">Serviço Principal</option>
+              <option value="complementar">Serviço Complementar</option>
+            </select>
+            <label class="sr-only" for="srv-icon">Ícone</label>
+            <select id="srv-icon" required class="px-4 py-2 border border-border rounded-md text-sm bg-background">
+              <option value="home">Home (Residencial)</option>
+              <option value="building">Building (Comercial)</option>
+              <option value="lightbulb">Lightbulb (Consultoria)</option>
+              <option value="hammer">Hammer (Reforma)</option>
+              <option value="trees">Trees (Paisagismo)</option>
+            </select>
+            <label class="sr-only" for="srv-imageUrl">Caminho ou URL da Imagem (opcional)</label>
+            <input id="srv-imageUrl" type="text" placeholder="Caminho/URL da Imagem (opcional)" value="" class="px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <label class="sr-only" for="srv-description">Descrição do Serviço</label>
+            <textarea id="srv-description" required rows="2" placeholder="Descrição *" class="md:col-span-2 px-4 py-2 border border-border rounded-md text-sm bg-background"></textarea>
+            <label class="sr-only" for="srv-includes">Itens Incluídos</label>
+            <input id="srv-includes" type="text" placeholder="Itens Incluídos (separados por vírgula)" class="md:col-span-2 px-4 py-2 border border-border rounded-md text-sm bg-background" />
+            <button type="submit" class="md:col-span-2 py-2.5 bg-secondary text-secondary-foreground font-semibold text-sm rounded-md hover:bg-secondary/90">
+              Salvar Serviço
+            </button>
+          </form>
+        </div>
+
+        <div id="adm-services-list" class="grid gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('');
+
+      const currentUser = getCurrentUser();
+      if (!currentUser || currentUser.role !== 'ADMIN') {
+        showToast('Acesso restrito para administradores.', 'error');
+        setTimeout(() => { window.location.href = './login.html'; }, 1000);
+        return;
+      }
+
+      loadAdminData();
+
+      // Form handlers
+      document.getElementById('add-portfolio-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const portfolio = getPortfolio();
+        const newItem = {
+          id: `pf-${Date.now()}`,
+          title: document.getElementById('pf-title').value,
+          category: document.getElementById('pf-category').value,
+          area: document.getElementById('pf-area').value,
+          year: document.getElementById('pf-year').value,
+          location: document.getElementById('pf-location').value,
+          imageUrl: document.getElementById('pf-imageUrl').value,
+          description: document.getElementById('pf-description').value,
+          featured: true,
+          order: portfolio.length + 1
+        };
+        portfolio.push(newItem);
+        savePortfolio(portfolio);
+        showToast('Projeto adicionado ao portfólio!', 'success');
+        document.getElementById('add-portfolio-form').reset();
+        loadAdminData();
+      });
+
+      document.getElementById('add-service-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const services = getServices();
+        const includesStr = document.getElementById('srv-includes').value;
+        const newItem = {
+          id: `srv-${Date.now()}`,
+          group: document.getElementById('srv-group').value || 'principal',
+          title: document.getElementById('srv-title').value,
+          slug: document.getElementById('srv-slug').value,
+          icon: document.getElementById('srv-icon').value,
+          imageUrl: document.getElementById('srv-imageUrl').value,
+          description: document.getElementById('srv-description').value,
+          includes: includesStr ? includesStr.split(',').map(s => s.trim()) : [],
+          active: true,
+          order: services.length + 1
+        };
+        services.push(newItem);
+        saveServices(services);
+        showToast('Serviço adicionado!', 'success');
+        document.getElementById('add-service-form').reset();
+        loadAdminData();
+      });
+    });
+
+    function loadAdminData() {
+      const appointments = getAppointments();
+      const projects = getProjects();
+      const portfolio = getPortfolio();
+      const services = getServices();
+
+      document.getElementById('adm-stat-apt-pending').textContent = appointments.filter(a => a.status === 'PENDING').length;
+      document.getElementById('adm-stat-proj-new').textContent = projects.filter(p => p.status === 'NEW').length;
+      document.getElementById('adm-stat-portfolio-total').textContent = portfolio.length;
+      document.getElementById('adm-stat-services-total').textContent = services.filter(s => s.active).length;
+
+      // Render Admin Appointments
+      const aptListEl = document.getElementById('adm-appointments-list');
+      if (appointments.length === 0) {
+        aptListEl.innerHTML = `<div class="p-8 text-center bg-card rounded border text-muted-foreground">Nenhum agendamento cadastrado.</div>`;
+      } else {
+        aptListEl.innerHTML = appointments.map(a => `
+          <div class="bg-card border border-border rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-serif font-bold text-foreground">${a.userName}</span>
+                <span class="text-xs text-muted-foreground">(${a.userEmail})</span>
+              </div>
+              <p class="text-sm text-muted-foreground flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                ${a.date} às ${a.time} | <strong>${getAppointmentTypeLabel(a.type)}</strong>
+              </p>
+              ${a.address ? `<p class="text-xs text-muted-foreground flex items-center gap-1"><svg class="w-3 h-3 inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> ${a.address}</p>` : ''}
+              ${a.notes ? `<p class="text-xs italic bg-muted p-2 rounded text-muted-foreground">"${a.notes}"</p>` : ''}
+            </div>
+            <div>
+              <select aria-label="Alterar estado do agendamento" onchange="changeAptStatus('${a.id}', this.value)" class="px-3 py-1.5 rounded border border-border bg-background text-sm font-semibold">
+                <option value="PENDING" ${a.status === 'PENDING' ? 'selected' : ''}>Pendente</option>
+                <option value="CONFIRMED" ${a.status === 'CONFIRMED' ? 'selected' : ''}>Confirmado</option>
+                <option value="CANCELLED" ${a.status === 'CANCELLED' ? 'selected' : ''}>Cancelado</option>
+              </select>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Admin Projects
+      const projListEl = document.getElementById('adm-projects-list');
+      if (projects.length === 0) {
+        projListEl.innerHTML = `<div class="p-8 text-center bg-card rounded border text-muted-foreground">Nenhuma solicitação de projeto cadastrada.</div>`;
+      } else {
+        projListEl.innerHTML = projects.map(p => `
+          <div class="bg-card border border-border rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="space-y-1 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="font-serif font-bold text-foreground">${p.projectType}</span>
+                <span class="text-xs text-muted-foreground">por ${p.userName} (${p.userEmail})</span>
+              </div>
+              <p class="text-sm text-muted-foreground">${p.description}</p>
+              <div class="flex flex-wrap gap-4 text-xs text-muted-foreground pt-1">
+                ${p.budget ? `<span class="flex items-center gap-1"><svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v22m5-18H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> ${p.budget}</span>` : ''}
+                ${p.timeline ? `<span class="flex items-center gap-1"><svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> ${p.timeline}</span>` : ''}
+              </div>
+            </div>
+            <div>
+              <select aria-label="Alterar estado do projeto" onchange="changeProjStatus('${p.id}', this.value)" class="px-3 py-1.5 rounded border border-border bg-background text-sm font-semibold">
+                <option value="NEW" ${p.status === 'NEW' ? 'selected' : ''}>Novo</option>
+                <option value="IN_REVIEW" ${p.status === 'IN_REVIEW' ? 'selected' : ''}>Em Análise</option>
+                <option value="APPROVED" ${p.status === 'APPROVED' ? 'selected' : ''}>Aprovado</option>
+                <option value="IN_PROGRESS" ${p.status === 'IN_PROGRESS' ? 'selected' : ''}>Em Andamento</option>
+                <option value="COMPLETED" ${p.status === 'COMPLETED' ? 'selected' : ''}>Concluído</option>
+              </select>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Admin Portfolio
+      const pfListEl = document.getElementById('adm-portfolio-list');
+      pfListEl.innerHTML = portfolio.map(pf => `
+        <div class="bg-card border border-border rounded-lg overflow-hidden shadow-sm p-4 space-y-2">
+          <img loading="lazy" decoding="async" src="${pf.imageUrl}" alt="${pf.title}" class="w-full h-36 object-cover rounded" />
+          <span class="text-xs text-secondary font-bold uppercase">${pf.category}</span>
+          <h4 class="font-serif font-bold text-foreground">${pf.title}</h4>
+          <p class="text-xs text-muted-foreground line-clamp-2">${pf.description}</p>
+          <button onclick="deletePortfolioItem('${pf.id}')" class="w-full py-1.5 bg-red-100 text-red-600 font-semibold text-xs rounded hover:bg-red-200">
+            Remover
+          </button>
+        </div>
+      `).join('');
+
+      // Render Admin Services
+      const srvListEl = document.getElementById('adm-services-list');
+      srvListEl.innerHTML = services.map(s => `
+        <div class="bg-card border border-border rounded-lg p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded bg-secondary/20 flex items-center justify-center text-secondary font-bold">
+              ${renderLucideIcon(s.icon, "w-5 h-5")}
+            </div>
+            <div>
+              <h4 class="font-serif font-bold text-foreground">${s.title}</h4>
+              <p class="text-xs text-muted-foreground">${s.description}</p>
+            </div>
+          </div>
+          <button onclick="deleteServiceItem('${s.id}')" class="px-3 py-1.5 bg-red-100 text-red-600 font-semibold text-xs rounded hover:bg-red-200">
+            Excluir
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function changeAptStatus(id, status) {
+      updateAppointmentStatus(id, status);
+      showToast('Status do agendamento atualizado!', 'success');
+      loadAdminData();
+    }
+
+    function changeProjStatus(id, status) {
+      updateProjectStatus(id, status);
+      showToast('Status do projeto atualizado!', 'success');
+      loadAdminData();
+    }
+
+    function deletePortfolioItem(id) {
+      if (confirm('Tem certeza que deseja remover este item do portfólio?')) {
+        let portfolio = getPortfolio().filter(p => p.id !== id);
+        savePortfolio(portfolio);
+        showToast('Item removido do portfólio', 'info');
+        loadAdminData();
+      }
+    }
+
+    function deleteServiceItem(id) {
+      if (confirm('Tem certeza que deseja remover este serviço?')) {
+        let services = getServices().filter(s => s.id !== id);
+        saveServices(services);
+        showToast('Serviço removido', 'info');
+        loadAdminData();
+      }
+    }
+
+    function switchAdminTab(tabId) {
+      document.querySelectorAll('.adm-tab-content').forEach(c => c.classList.add('hidden'));
+      document.querySelectorAll('.adm-tab-btn').forEach(b => {
+        b.classList.remove('border-primary', 'text-primary', 'font-semibold');
+        b.classList.add('border-transparent', 'text-muted-foreground');
+      });
+
+      const targetContent = document.getElementById(`adm-content-${tabId}`);
+      const targetBtn = document.getElementById(`adm-btn-${tabId}`);
+      if (targetContent && targetBtn) {
+        targetContent.classList.remove('hidden');
+        targetBtn.classList.add('border-primary', 'text-primary', 'font-semibold');
+        targetBtn.classList.remove('border-transparent', 'text-muted-foreground');
+      }
+    }
+  </script>
+</body>
+</html>

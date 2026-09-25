@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Área - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-12 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 id="user-greeting" class="font-serif text-3xl md:text-4xl leading-tight mb-2">
+            Olá, Cliente!
+          </h1>
+          <p class="text-primary-foreground/80">
+            Gerencie seus agendamentos e solicitações de projetos
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <button onclick="location.reload()" class="px-4 py-2 border border-primary-foreground/30 text-white rounded-md text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Atualizar
+          </button>
+          <a href="./agendar.html" class="px-4 py-2 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Novo Agendamento
+          </a>
+          <a href="./solicitar-projeto.html" class="px-4 py-2 border border-primary-foreground/30 text-white font-medium rounded-md hover:bg-white/10 transition-colors text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Novo Projeto
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Grid -->
+  <section class="py-8 border-b border-border">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <p id="stat-total-apt" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Total Agendamentos</p>
+          </div>
+        </div>
+        <div class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div>
+            <p id="stat-total-proj" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Total Projetos</p>
+          </div>
+        </div>
+        <div class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <p id="stat-pending-apt" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Agend. Pendentes</p>
+          </div>
+        </div>
+        <div class="bg-card border border-border rounded-lg p-4 flex items-center gap-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          </div>
+          <div>
+            <p id="stat-new-proj" class="text-2xl font-serif font-bold text-foreground">0</p>
+            <p class="text-xs text-muted-foreground">Projetos Novos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs Section -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex border-b border-border mb-6 gap-2">
+        <button onclick="switchDashTab('appointments')" id="dash-btn-appointments" class="dash-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-primary text-primary font-semibold">
+          Agendamentos
+        </button>
+        <button onclick="switchDashTab('projects')" id="dash-btn-projects" class="dash-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+          Projetos
+        </button>
+        <button onclick="switchDashTab('profile')" id="dash-btn-profile" class="dash-tab-btn px-6 py-3 font-medium text-sm border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+          Meu Perfil
+        </button>
+      </div>
+
+      <!-- Appointments Tab Content -->
+      <div id="dash-content-appointments" class="dash-tab-content">
+        <div id="user-appointments-list" class="grid gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Projects Tab Content -->
+      <div id="dash-content-projects" class="dash-tab-content hidden">
+        <div id="user-projects-list" class="grid gap-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Profile Tab Content -->
+      <div id="dash-content-profile" class="dash-tab-content hidden">
+        <div class="bg-card border border-border rounded-lg p-6 max-w-2xl shadow-sm space-y-6">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <div>
+              <h3 id="profile-name" class="font-serif text-2xl text-foreground">--</h3>
+              <p id="profile-email" class="text-sm text-muted-foreground">--</p>
+              <span id="profile-role" class="inline-block mt-2 px-2.5 py-0.5 rounded text-xs font-semibold bg-secondary/20 text-secondary-foreground">Cliente</span>
+            </div>
+          </div>
+          <div id="admin-panel-link-container" class="hidden pt-4 border-t border-border">
+            <a href="./admin.html" class="inline-flex items-center justify-center px-6 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90">
+              Acessar Painel Admin
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('');
+
+      const currentUser = getCurrentUser();
+      if (!currentUser) {
+        window.location.href = './login.html';
+        return;
+      }
+
+      document.getElementById('user-greeting').textContent = `Olá, ${currentUser.name}!`;
+      document.getElementById('profile-name').textContent = currentUser.name;
+      document.getElementById('profile-email').textContent = currentUser.email;
+      document.getElementById('profile-role').textContent = currentUser.role === 'ADMIN' ? 'Administrador' : 'Cliente';
+
+      if (currentUser.role === 'ADMIN') {
+        document.getElementById('admin-panel-link-container').classList.remove('hidden');
+      }
+
+      loadUserData(currentUser);
+    });
+
+    function loadUserData(user) {
+      const appointments = getAppointments().filter(a => a.userId === user.id || a.userEmail === user.email);
+      const projects = getProjects().filter(p => p.userId === user.id || p.userEmail === user.email);
+
+      document.getElementById('stat-total-apt').textContent = appointments.length;
+      document.getElementById('stat-total-proj').textContent = projects.length;
+      document.getElementById('stat-pending-apt').textContent = appointments.filter(a => a.status === 'PENDING').length;
+      document.getElementById('stat-new-proj').textContent = projects.filter(p => p.status === 'NEW').length;
+
+      // Render Appointments
+      const aptListEl = document.getElementById('user-appointments-list');
+      if (appointments.length === 0) {
+        aptListEl.innerHTML = `
+          <div class="bg-muted p-12 rounded-lg text-center border border-border">
+            <p class="text-muted-foreground mb-4">Você ainda não possui agendamentos.</p>
+            <a href="./agendar.html" class="inline-flex items-center px-6 py-2.5 bg-secondary text-secondary-foreground text-sm font-medium rounded-md hover:bg-secondary/90">
+              Agendar conversa
+            </a>
+          </div>
+        `;
+      } else {
+        aptListEl.innerHTML = appointments.map(a => `
+          <div class="bg-card border border-border rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start gap-4">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="font-serif text-lg font-semibold text-foreground">${getAppointmentTypeLabel(a.type)}</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-semibold ${getStatusBadgeClass(a.status)}">${getStatusLabel(a.status)}</span>
+              </div>
+              <p class="text-sm text-muted-foreground flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-secondary inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <strong>${a.date}</strong> às <strong>${a.time}</strong>
+              </p>
+              ${a.type === 'SITE' && a.address ? `
+                <p class="text-xs text-muted-foreground flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-secondary inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  ${a.address}
+                </p>
+              ` : ''}
+              ${a.notes ? `<p class="text-xs italic bg-muted p-2 rounded text-muted-foreground">"${a.notes}"</p>` : ''}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Projects
+      const projListEl = document.getElementById('user-projects-list');
+      if (projects.length === 0) {
+        projListEl.innerHTML = `
+          <div class="bg-muted p-12 rounded-lg text-center border border-border">
+            <p class="text-muted-foreground mb-4">Você ainda não solicitou nenhum projeto.</p>
+            <a href="./solicitar-projeto.html" class="inline-flex items-center px-6 py-2.5 bg-secondary text-secondary-foreground text-sm font-medium rounded-md hover:bg-secondary/90">
+              Solicitar orçamento
+            </a>
+          </div>
+        `;
+      } else {
+        projListEl.innerHTML = projects.map(p => `
+          <div class="bg-card border border-border rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start gap-4">
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="font-serif text-lg font-semibold text-foreground">${p.projectType}</span>
+                <span class="px-2.5 py-0.5 rounded text-xs font-semibold ${getStatusBadgeClass(p.status)}">${getStatusLabel(p.status)}</span>
+              </div>
+              <p class="text-sm text-muted-foreground">${p.description}</p>
+              <div class="flex flex-wrap gap-4 text-xs text-muted-foreground pt-1">
+                ${p.budget ? `
+                  <span class="flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    ${p.budget}
+                  </span>
+                ` : ''}
+                ${p.timeline ? `
+                  <span class="flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    ${p.timeline}
+                  </span>
+                ` : ''}
+                ${p.address ? `
+                  <span class="flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    ${p.address}
+                  </span>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function getStatusLabel(status) {
+      const labels = { PENDING: 'Pendente', CONFIRMED: 'Confirmado', CANCELLED: 'Cancelado', NEW: 'Novo', IN_REVIEW: 'Em Análise', APPROVED: 'Aprovado', IN_PROGRESS: 'Em Andamento', COMPLETED: 'Concluído' };
+      return labels[status] || status;
+    }
+
+    function getStatusBadgeClass(status) {
+      const colors = {
+        PENDING: 'bg-yellow-100 text-yellow-800', CONFIRMED: 'bg-green-100 text-green-800', CANCELLED: 'bg-red-100 text-red-800',
+        NEW: 'bg-blue-100 text-blue-800', IN_REVIEW: 'bg-purple-100 text-purple-800', APPROVED: 'bg-green-100 text-green-800',
+        IN_PROGRESS: 'bg-orange-100 text-orange-800', COMPLETED: 'bg-gray-100 text-gray-800'
+      };
+      return colors[status] || 'bg-muted text-muted-foreground';
+    }
+
+    function switchDashTab(tabId) {
+      document.querySelectorAll('.dash-tab-content').forEach(c => c.classList.add('hidden'));
+      document.querySelectorAll('.dash-tab-btn').forEach(b => {
+        b.classList.remove('border-primary', 'text-primary', 'font-semibold');
+        b.classList.add('border-transparent', 'text-muted-foreground');
+      });
+
+      const targetContent = document.getElementById(`dash-content-${tabId}`);
+      const targetBtn = document.getElementById(`dash-btn-${tabId}`);
+      if (targetContent && targetBtn) {
+        targetContent.classList.remove('hidden');
+        targetBtn.classList.add('border-primary', 'text-primary', 'font-semibold');
+        targetBtn.classList.remove('border-transparent', 'text-muted-foreground');
+      }
+    }
+  </script>
+</body>
+</html>

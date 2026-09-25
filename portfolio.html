@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfólio - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-14 md:py-24 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+          Portfólio
+        </h1>
+        <p class="text-xl text-primary-foreground/80">
+          Explore alguns dos projetos desenvolvidos pela HAVREDESIGN e descubra soluções arquitetónicas pensadas para transformar espaços com funcionalidade, identidade e sofisticação.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="py-6 border-b border-border sticky top-20 bg-background/95 backdrop-blur z-40">
+    <div class="container mx-auto px-4">
+      <div id="category-filters" class="flex flex-wrap gap-2">
+        <!-- Buttons rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div id="portfolio-grid-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('portfolio');
+
+      const categories = ["Todos", "Residencial", "Comercial", "Corporativo", "Outro"];
+      let activeCategory = "Todos";
+      const allProjects = getPortfolio();
+
+      const filtersContainer = document.getElementById('category-filters');
+      const gridContainer = document.getElementById('portfolio-grid-container');
+
+      function renderFilters() {
+        if (!filtersContainer) return;
+        filtersContainer.innerHTML = categories.map(cat => `
+          <button
+            onclick="setCategory('${cat}')"
+            class="px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeCategory === cat ? 'bg-primary text-primary-foreground font-bold' : 'border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground'}"
+          >
+            ${cat}
+          </button>
+        `).join('');
+      }
+
+      function renderProjects() {
+        if (!gridContainer) return;
+        const filtered = activeCategory === "Todos" 
+          ? allProjects 
+          : allProjects.filter(p => p.category === activeCategory);
+
+        if (filtered.length === 0) {
+          gridContainer.innerHTML = `
+            <div class="col-span-full text-center py-12 text-muted-foreground">
+              Nenhum projeto encontrado nesta categoria.
+            </div>
+          `;
+          return;
+        }
+
+        gridContainer.innerHTML = filtered.map(project => `
+          <a href="./portfolio-detalhe.html?id=${project.id}" class="group block cursor-pointer">
+            <div class="relative aspect-[4/3] rounded-lg overflow-hidden mb-4 bg-muted shadow-sm">
+              <img loading="lazy" decoding="async" src="${project.imageUrl}"
+                alt="${project.title}"
+                class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                onerror="this.src='./assets/hero-section.png'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div>
+                  <span class="text-secondary text-sm font-semibold">${project.category}</span>
+                  <h3 class="font-serif text-xl text-primary-foreground">${project.title}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-1">
+              <span class="text-xs text-secondary font-semibold uppercase tracking-wider">${project.category}</span>
+              <h3 class="font-serif text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                ${project.title}
+              </h3>
+              <p class="text-sm text-muted-foreground line-clamp-2">
+                ${project.description}
+              </p>
+              <div class="flex flex-wrap gap-3 text-xs text-muted-foreground mt-2">
+                ${project.area ? `<span class="flex items-center gap-1"><svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg> ${project.area}</span>` : ''}
+                ${project.year ? `<span class="flex items-center gap-1"><svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> ${project.year}</span>` : ''}
+                ${project.location ? `<span class="flex items-center gap-1"><svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> ${project.location}</span>` : ''}
+              </div>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      window.setCategory = (cat) => {
+        activeCategory = cat;
+        renderFilters();
+        renderProjects();
+      };
+
+      renderFilters();
+      renderProjects();
+    });
+  </script>
+</body>
+</html>

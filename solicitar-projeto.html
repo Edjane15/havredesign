@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitar Projeto - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-16 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="font-serif text-4xl md:text-5xl leading-tight mb-4">
+          Solicitar Projeto
+        </h1>
+        <p class="text-lg text-primary-foreground/80">
+          Preencha o formulário abaixo e receberá uma proposta personalizada para seu projeto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success View -->
+  <section id="project-success-view" class="hidden py-14 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="max-w-md mx-auto text-center space-y-6">
+        <div class="w-20 h-20 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">
+          <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h2 class="font-serif text-2xl md:text-3xl text-foreground">Solicitação Enviada!</h2>
+        <p class="text-muted-foreground">
+          Recebemos sua solicitação de projeto. Nossa equipe irá analisar e entrar em contacto em até 48 horas úteis.
+        </p>
+        <div id="project-summary-box" class="bg-card p-6 rounded-lg border border-border text-left space-y-3 shadow-sm">
+          <!-- Rendered via JS -->
+        </div>
+        <div class="flex flex-col gap-3 pt-4">
+          <a href="./index.html" class="w-full py-3 bg-secondary text-secondary-foreground font-medium rounded-md text-center hover:bg-secondary/90">
+            Voltar ao Início
+          </a>
+          <a href="./dashboard.html" class="w-full py-3 border border-border text-foreground font-medium rounded-md text-center hover:bg-muted">
+            Ver Meus Projetos
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section id="project-form-section" class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-3 gap-12">
+        <!-- Main Form -->
+        <div class="lg:col-span-2">
+          <form id="project-request-form" class="space-y-8">
+            <!-- Personal Info -->
+            <div class="space-y-6">
+              <h2 class="font-serif text-2xl text-foreground">Informações Pessoais</h2>
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="userName" class="block text-sm font-medium text-foreground">Nome Completo *</label>
+                  <input id="userName" type="text" required placeholder="Seu nome" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+                <div class="space-y-2">
+                  <label for="userEmail" class="block text-sm font-medium text-foreground">E-mail *</label>
+                  <input id="userEmail" type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+                <div class="space-y-2">
+                  <label for="userPhone" class="block text-sm font-medium text-foreground">Telefone *</label>
+                  <input id="userPhone" type="text" required placeholder="+244 926 184 104" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+                <div class="space-y-2">
+                  <label for="address" class="block text-sm font-medium text-foreground">Localização do Projeto</label>
+                  <input id="address" type="text" placeholder="Província, Município, Bairro" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Info -->
+            <div class="space-y-6">
+              <h2 class="font-serif text-2xl text-foreground">Detalhes do Projeto</h2>
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="projectType" class="block text-sm font-medium text-foreground">Tipo de Projeto *</label>
+                  <select id="projectType" required class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o tipo</option>
+                    <option value="Projeto Arquitetónico">Projeto Arquitetónico</option>
+                    <option value="Visualização & Consultoria">Visualização & Consultoria</option>
+                    <option value="Interiores & Design">Interiores & Design</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="area" class="block text-sm font-medium text-foreground">Área Aproximada (m²)</label>
+                  <input id="area" type="text" inputmode="decimal" placeholder="Ex.: 120" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+
+                <div class="space-y-2">
+                  <label for="projectStage" class="block text-sm font-medium text-foreground">Estado do Projeto</label>
+                  <select id="projectStage" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o estado</option>
+                    <option value="Em definição">Em definição</option>
+                    <option value="Estudo preliminar em curso">Estudo preliminar em curso</option>
+                    <option value="Projeto desenvolvido">Projeto desenvolvido</option>
+                    <option value="Obra em curso">Obra em curso</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="budget" class="block text-sm font-medium text-foreground">Orçamento Previsto</label>
+                  <select id="budget" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione a faixa</option>
+                    <option value="Até 50.000 Kz">Até 50.000 Kz</option>
+                    <option value="50.000 - 150.000 Kz">50.000 - 150.000 Kz</option>
+                    <option value="150.000 - 300.000 Kz">150.000 - 300.000 Kz</option>
+                    <option value="300.000 - 500.000 Kz">300.000 - 500.000 Kz</option>
+                    <option value="Acima de 500.000 Kz">Acima de 500.000 Kz</option>
+                    <option value="A definir">A definir</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2 sm:col-span-2">
+                  <label for="timeline" class="block text-sm font-medium text-foreground">Prazo Desejado</label>
+                  <select id="timeline" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o prazo</option>
+                    <option value="Urgente (menos de 1 mês)">Urgente (menos de 1 mês)</option>
+                    <option value="1 a 3 meses">1 a 3 meses</option>
+                    <option value="3 a 6 meses">3 a 6 meses</option>
+                    <option value="6 meses a 1 ano">6 meses a 1 ano</option>
+                    <option value="Sem prazo definido">Sem prazo definido</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2 sm:col-span-2">
+                  <label for="serviceRequested" class="block text-sm font-medium text-foreground">Serviço Pretendido</label>
+                  <p class="text-xs text-muted-foreground -mt-1">Escolha um serviço ou uma HAVRE Solução. Se ainda não souber, escolha «Não sei — preciso de orientação».</p>
+                  <select id="serviceRequested" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione um serviço</option>
+                    <option value="Arquitetura">Arquitetura</option>
+                    <option value="Design de Interiores">Design de Interiores</option>
+                    <option value="Fiscalização e Acompanhamento Técnico">Fiscalização e Acompanhamento Técnico</option>
+                    <option value="Consultoria Técnica">Consultoria Técnica</option>
+                    <option value="Topografia">Topografia</option>
+                    <option value="Levantamento Técnico">Levantamento Técnico</option>
+                    <option value="Modelação 3D e Renderização">Modelação 3D e Renderização</option>
+                    <option value="Medições e Orçamento">Medições e Orçamento</option>
+                    <option value="Licenciamento">Licenciamento</option>
+                    <option value="Croqui de Localização">Croqui de Localização</option>
+                    <option value="Não sei — preciso de orientação">Não sei — preciso de orientação</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2 sm:col-span-2">
+                  <label for="solutionRequested" class="block text-sm font-medium text-foreground">Ou HAVRE Solução Pretendida</label>
+                  <select id="solutionRequested" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione uma solução</option>
+                    <option value="HAVRE Genesis">HAVRE Genesis — Arquitetura de Raiz</option>
+                    <option value="HAVRE Evolution">HAVRE Evolution — Transformação de Espaços</option>
+                    <option value="HAVRE Ready">HAVRE Ready — Regularização e Licenciamento</option>
+                    <option value="HAVRE Guardian">HAVRE Guardian — Fiscalização e Acompanhamento Técnico</option>
+                    <option value="HAVRE Prime">HAVRE Prime — Solução Exclusiva</option>
+                    <option value="Não sei — preciso de orientação">Não sei — preciso de orientação</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="segment" class="block text-sm font-medium text-foreground">Segmento</label>
+                  <select id="segment" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o segmento</option>
+                    <option value="Investimento imobiliário residencial">Investimento imobiliário residencial</option>
+                    <option value="Habitação própria">Habitação própria</option>
+                    <option value="Comércio e serviços">Comércio e serviços</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="replyChannel" class="block text-sm font-medium text-foreground">Canal Preferido para Resposta</label>
+                  <select id="replyChannel" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o canal</option>
+                    <option value="E-mail">E-mail</option>
+                    <option value="Telefone">Telefone</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                  </select>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="replyTime" class="block text-sm font-medium text-foreground">Horário Preferido</label>
+                  <select id="replyTime" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary">
+                    <option value="">Selecione o horário</option>
+                    <option value="Manhã">Manhã</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Fim do dia">Fim do dia</option>
+                    <option value="Indiferente">Indiferente</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="description" class="block text-sm font-medium text-foreground">Descrição do Projeto *</label>
+                <textarea
+                  id="description"
+                  required
+                  rows="6"
+                  placeholder="Descreva seu projeto com detalhes: tipo de ambiente, metragem aproximada, necessidades específicas, preferências de estilo, etc."
+                  class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="space-y-4">
+              <div>
+                <h2 class="font-serif text-2xl text-foreground">Anexos</h2>
+                <p class="text-sm text-muted-foreground mt-1">
+                  Planta, croqui, fotografias e documento do terreno. Formatos aceites: PDF, JPG, PNG ou DWG, até 10 MB por ficheiro.
+                </p>
+              </div>
+              <div class="border border-dashed border-border rounded-md p-6 text-center bg-muted">
+                <label for="projectFiles" class="block text-sm font-medium text-foreground mb-2">Selecionar ficheiros</label>
+                <input
+                  id="projectFiles"
+                  type="file"
+                  multiple
+                  accept=".pdf,.jpg,.jpeg,.png,.dwg"
+                  disabled
+                  class="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-secondary file:text-secondary-foreground file:text-sm file:font-medium hover:file:bg-secondary/90 disabled:opacity-60"
+                />
+                <p class="text-xs text-muted-foreground mt-3">O envio de anexos fica disponível com a ativação do envio online.</p>
+              </div>
+            </div>
+
+            <!-- Consent -->
+            <div class="space-y-4">
+              <label class="flex items-start gap-3 text-sm text-muted-foreground">
+                <input id="privacyConsent" type="checkbox" required aria-label="Autorizo o tratamento dos meus dados pessoais" class="mt-1 h-4 w-4 rounded border-border text-secondary focus:ring-secondary" />
+                <span>
+                  Autorizo o tratamento dos meus dados pessoais de acordo com a
+                  <a href="./politica-privacidade.html" class="underline text-foreground hover:text-secondary">Política de Privacidade</a>
+                  e concordo em ser contactado sobre este pedido. *
+                </span>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors"
+            >
+              Enviar Solicitação
+              <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <div class="bg-muted p-6 rounded-lg border border-border space-y-4">
+            <div class="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <h3 class="font-serif text-lg text-foreground">Como Funciona</h3>
+            <ol class="space-y-3 text-sm text-muted-foreground">
+              <li class="flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs shrink-0 font-bold">1</span>
+                Preencha o formulário com os detalhes do seu projeto
+              </li>
+              <li class="flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs shrink-0 font-bold">2</span>
+                Nossa equipe analisa sua solicitação
+              </li>
+              <li class="flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs shrink-0 font-bold">3</span>
+                Entramos em contacto para agendar reunião
+              </li>
+              <li class="flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs shrink-0 font-bold">4</span>
+                Apresentamos proposta personalizada
+              </li>
+            </ol>
+          </div>
+
+          <div class="bg-primary text-primary-foreground p-6 rounded-lg space-y-4">
+            <h3 class="font-serif text-lg">Prefere Conversar?</h3>
+            <p class="text-sm text-primary-foreground/80">
+              Se tiver dúvidas ou preferir explicar seu projeto por telefone, entre em contacto conosco.
+            </p>
+            <div class="space-y-2 pt-2">
+              <a href="./agendar.html" class="block w-full text-center py-2.5 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors text-sm">
+                Agendar conversa
+              </a>
+              <a href="https://wa.me/244926184104" target="_blank" rel="noopener noreferrer" class="block w-full text-center py-2.5 border border-primary-foreground/30 text-white font-medium rounded-md hover:bg-white/10 transition-colors text-sm">
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('');
+
+      const user = getCurrentUser();
+      if (user) {
+        document.getElementById('userName').value = user.name || '';
+        document.getElementById('userEmail').value = user.email || '';
+      }
+
+      const form = document.getElementById('project-request-form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const projData = {
+            userId: user ? user.id : 'guest',
+            userName: document.getElementById('userName').value,
+            userEmail: document.getElementById('userEmail').value,
+            userPhone: document.getElementById('userPhone').value,
+            address: document.getElementById('address').value,
+            projectType: document.getElementById('projectType').value,
+            area: document.getElementById('area').value,
+            projectStage: document.getElementById('projectStage').value,
+            serviceRequested: document.getElementById('serviceRequested').value,
+            solutionRequested: document.getElementById('solutionRequested').value,
+            segment: document.getElementById('segment').value,
+            replyChannel: document.getElementById('replyChannel').value,
+            replyTime: document.getElementById('replyTime').value,
+            budget: document.getElementById('budget').value,
+            timeline: document.getElementById('timeline').value,
+            description: document.getElementById('description').value
+          };
+
+          const saved = saveProject(projData);
+          showToast('Solicitação de projeto enviada com sucesso!', 'success');
+
+          document.getElementById('project-form-section').classList.add('hidden');
+          document.getElementById('project-success-view').classList.remove('hidden');
+
+          document.getElementById('project-summary-box').innerHTML = `
+            <p class="text-sm"><strong>Tipo:</strong> ${saved.projectType}</p>
+            <p class="text-sm"><strong>Serviço:</strong> ${saved.serviceRequested || 'Não especificado'}</p>
+            <p class="text-sm"><strong>Solução:</strong> ${saved.solutionRequested || 'Não especificado'}</p>
+            <p class="text-sm"><strong>Localização:</strong> ${saved.address || 'Não especificada'}</p>
+            <p class="text-sm"><strong>Orçamento:</strong> ${saved.budget || 'Não especificado'}</p>
+            <p class="text-sm"><strong>Prazo:</strong> ${saved.timeline || 'Não especificado'}</p>
+            <p class="text-sm"><strong>Cliente:</strong> ${saved.userName} (${saved.userEmail})</p>
+          `;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

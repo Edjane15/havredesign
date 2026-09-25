@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agendar Conversa - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-16 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="font-serif text-4xl md:text-5xl leading-tight mb-4">
+          Agendar Conversa
+        </h1>
+        <p class="text-lg text-primary-foreground/80">
+          Escolha a melhor forma de nos encontrarmos para discutir seu projeto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step Wizard -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <!-- Step Indicators -->
+        <div class="flex items-center justify-center mb-12">
+          <div id="step-dot-1" class="w-10 h-10 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center font-bold">1</div>
+          <div id="step-line-1" class="w-16 h-0.5 bg-muted"></div>
+          <div id="step-dot-2" class="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold">2</div>
+          <div id="step-line-2" class="w-16 h-0.5 bg-muted"></div>
+          <div id="step-dot-3" class="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold">3</div>
+        </div>
+
+        <!-- Success Message (Hidden by default) -->
+        <div id="success-view" class="hidden text-center space-y-6 max-w-md mx-auto py-12">
+          <div class="w-20 h-20 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h2 class="font-serif text-2xl md:text-3xl text-foreground">Agendamento Confirmado!</h2>
+          <p class="text-muted-foreground">Seu agendamento foi realizado com sucesso e registrado no sistema.</p>
+          <div id="success-summary" class="bg-card p-6 rounded-lg border border-border text-left space-y-3 shadow-sm">
+            <!-- Rendered via JS -->
+          </div>
+          <div class="flex flex-col gap-3 pt-4">
+            <a href="./index.html" class="w-full py-3 bg-secondary text-secondary-foreground font-medium rounded-md text-center hover:bg-secondary/90">
+              Voltar ao Início
+            </a>
+            <a href="./dashboard.html" class="w-full py-3 border border-border text-foreground font-medium rounded-md text-center hover:bg-muted">
+              Ver Meus Agendamentos
+            </a>
+          </div>
+        </div>
+
+        <!-- Wizard Form -->
+        <form id="wizard-form" class="space-y-8">
+          <!-- Step 1: Type -->
+          <div id="wizard-step-1" class="space-y-8">
+            <div class="text-center mb-8">
+              <h2 class="font-serif text-2xl text-foreground mb-2">Tipo de Consulta</h2>
+              <p class="text-muted-foreground">Escolha o formato da consulta.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <label onclick="selectType('OFFICE')" class="cursor-pointer">
+                <div id="type-card-office" class="p-6 rounded-lg border-2 border-secondary bg-card text-center space-y-4 hover:border-secondary transition-colors">
+                  <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto text-secondary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H9m4 0V7m0 0h4m-4 0H9"/></svg>
+                  </div>
+                  <h3 class="font-serif text-xl font-semibold">Reunião no Escritório</h3>
+                  <p class="text-sm text-muted-foreground">Visite nosso escritório para uma experiência completa com mostruários.</p>
+                  <p class="text-xs text-secondary font-medium">Benfica, Via Expressa, Bairro Tchinguari, Rua 1, próximo à Administração do Talatona, Município de Talatona, Luanda.</p>
+                </div>
+              </label>
+
+              <label onclick="selectType('SITE')" class="cursor-pointer">
+                <div id="type-card-site" class="p-6 rounded-lg border-2 border-border bg-card text-center space-y-4 hover:border-secondary transition-colors">
+                  <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto text-secondary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </div>
+                  <h3 class="font-serif text-xl font-semibold">Visita ao Local</h3>
+                  <p class="text-sm text-muted-foreground">A Arq.ª Janette vai até você para conhecer o espaço e entender suas necessidades.</p>
+                  <p class="text-xs text-muted-foreground">A visita ao local pode implicar uma taxa de deslocação, calculada conforme a localização e confirmada previamente.</p>
+                </div>
+              </label>
+
+              <label onclick="selectType('ONLINE')" class="cursor-pointer">
+                <div id="type-card-online" class="p-6 rounded-lg border-2 border-border bg-card text-center space-y-4 hover:border-secondary transition-colors">
+                  <div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto text-secondary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </div>
+                  <h3 class="font-serif text-xl font-semibold">Reunião Online</h3>
+                  <p class="text-sm text-muted-foreground">Conversa por videochamada ou telefone, no horário combinado.</p>
+                  <p class="text-xs text-muted-foreground">Sem deslocação</p>
+                </div>
+              </label>
+            </div>
+
+            <div id="address-container" class="hidden space-y-2">
+              <label for="address" class="block text-sm font-medium text-foreground">Endereço do Local *</label>
+              <textarea id="address" rows="3" placeholder="Digite o endereço completo da visita" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary"></textarea>
+            </div>
+
+            <div class="flex justify-end">
+              <button type="button" onclick="goToStep(2)" class="px-8 py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors">
+                Continuar
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Date & Time -->
+          <div id="wizard-step-2" class="hidden space-y-8">
+            <div class="text-center mb-8">
+              <h2 class="font-serif text-2xl text-foreground mb-2">Data e Horário</h2>
+              <p class="text-muted-foreground">Selecione a data e horário de sua preferência.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <label class="block text-sm font-medium text-foreground mb-4">Selecione a Data *</label>
+                <div class="bg-card border border-border p-4 rounded-lg shadow-sm">
+                  <div class="flex justify-between items-center mb-4">
+                    <button type="button" onclick="changeMonth(-1)" class="p-1 hover:bg-muted rounded text-foreground font-bold">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <span id="calendar-month-year" class="font-bold text-foreground"></span>
+                    <button type="button" onclick="changeMonth(1)" class="p-1 hover:bg-muted rounded text-foreground font-bold">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                  <div class="calendar-grid">
+                    <div class="calendar-day-header">Dom</div>
+                    <div class="calendar-day-header">Seg</div>
+                    <div class="calendar-day-header">Ter</div>
+                    <div class="calendar-day-header">Qua</div>
+                    <div class="calendar-day-header">Qui</div>
+                    <div class="calendar-day-header">Sex</div>
+                    <div class="calendar-day-header">Sáb</div>
+                  </div>
+                  <div id="calendar-days" class="calendar-grid mt-2"></div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-foreground mb-4">Selecione o Horário *</label>
+                <div id="time-slots-grid" class="grid grid-cols-2 gap-3">
+                  <!-- Times rendered via JS -->
+                </div>
+                <div id="selected-summary" class="mt-6 p-4 bg-muted rounded-lg hidden">
+                  <p class="text-xs text-muted-foreground">Você selecionou:</p>
+                  <p id="selected-summary-text" class="font-medium text-foreground text-sm mt-1"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 justify-between">
+              <button type="button" onclick="goToStep(1)" class="px-6 py-3 border border-border text-foreground font-medium rounded-md hover:bg-muted">
+                Voltar
+              </button>
+              <button type="button" onclick="goToStep(3)" class="px-8 py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90">
+                Continuar
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Personal Info -->
+          <div id="wizard-step-3" class="hidden space-y-8">
+            <div class="text-center mb-8">
+              <h2 class="font-serif text-2xl text-foreground mb-2">Seus Dados</h2>
+              <p class="text-muted-foreground">Preencha suas informações para confirmar o agendamento.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label for="userName" class="block text-sm font-medium text-foreground">Nome Completo *</label>
+                <input id="userName" type="text" required placeholder="Seu nome" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+              </div>
+              <div class="space-y-2">
+                <label for="userEmail" class="block text-sm font-medium text-foreground">E-mail *</label>
+                <input id="userEmail" type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+              </div>
+              <div class="space-y-2">
+                <label for="userPhone" class="block text-sm font-medium text-foreground">Telefone *</label>
+                <input id="userPhone" type="text" required placeholder="+244 926 184 104" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary" />
+              </div>
+              <div class="space-y-2 md:col-span-2">
+                <label for="notes" class="block text-sm font-medium text-foreground">Observações (opcional)</label>
+                <textarea id="notes" rows="3" placeholder="Conte-nos sobre o seu projeto ou dúvidas" class="w-full px-4 py-2.5 rounded-md border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-secondary"></textarea>
+              </div>
+            </div>
+
+            <!-- Confirmation Summary Card -->
+            <div class="bg-muted p-6 rounded-lg space-y-3">
+              <h4 class="font-medium text-foreground">Resumo do Agendamento</h4>
+              <div class="grid sm:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                <div><span>Data:</span> <strong id="sum-date" class="text-foreground">--</strong></div>
+                <div><span>Horário:</span> <strong id="sum-time" class="text-foreground">--</strong></div>
+                <div><span>Tipo:</span> <strong id="sum-type" class="text-foreground">--</strong></div>
+                <div id="sum-addr-wrapper" class="hidden"><span>Endereço:</span> <strong id="sum-addr" class="text-foreground">--</strong></div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 justify-between">
+              <button type="button" onclick="goToStep(2)" class="px-6 py-3 border border-border text-foreground font-medium rounded-md hover:bg-muted">
+                Voltar
+              </button>
+              <button type="submit" class="px-8 py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90">
+                Confirmar Agendamento
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    let currentStep = 1;
+    let selectedType = AGENDA_CONFIG.tipoPredefinido;
+    let selectedDate = null;
+    let selectedTime = null;
+
+    let calDate = new Date();
+    const timeSlots = AGENDA_CONFIG.horarios;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('agendar');
+
+      const user = getCurrentUser();
+      if (user) {
+        document.getElementById('userName').value = user.name || '';
+        document.getElementById('userEmail').value = user.email || '';
+      }
+
+      renderTimeSlots();
+      renderCalendar();
+
+      document.getElementById('wizard-form').addEventListener('submit', handleFinish);
+    });
+
+    function typeLabel(type) {
+      return getAppointmentTypeLabel(type);
+    }
+
+    function selectType(type) {
+      selectedType = type;
+      const cards = {
+        OFFICE: document.getElementById('type-card-office'),
+        SITE: document.getElementById('type-card-site'),
+        ONLINE: document.getElementById('type-card-online')
+      };
+      const addrContainer = document.getElementById('address-container');
+
+      Object.keys(cards).forEach(key => {
+        cards[key].className = key === type
+          ? "p-6 rounded-lg border-2 border-secondary bg-card text-center space-y-4 shadow-sm"
+          : "p-6 rounded-lg border-2 border-border bg-card text-center space-y-4 hover:border-secondary transition-colors";
+      });
+
+      if (appointmentTypeNeedsAddress(type)) {
+        addrContainer.classList.remove('hidden');
+      } else {
+        addrContainer.classList.add('hidden');
+      }
+    }
+
+    function goToStep(step) {
+      if (step === 2 && appointmentTypeNeedsAddress(selectedType)) {
+        const addr = document.getElementById('address').value;
+        if (!addr.trim()) {
+          showToast('Por favor, informe o endereço para a visita', 'error');
+          return;
+        }
+      }
+
+      if (step === 3) {
+        if (!selectedDate) {
+          showToast('Por favor, selecione uma data no calendário', 'error');
+          return;
+        }
+        if (!selectedTime) {
+          showToast('Por favor, selecione um horário', 'error');
+          return;
+        }
+
+        document.getElementById('sum-date').textContent = selectedDate;
+        document.getElementById('sum-time').textContent = selectedTime;
+        document.getElementById('sum-type').textContent = typeLabel(selectedType);
+
+        if (selectedType === 'SITE') {
+          document.getElementById('sum-addr-wrapper').classList.remove('hidden');
+          document.getElementById('sum-addr').textContent = document.getElementById('address').value;
+        } else {
+          document.getElementById('sum-addr-wrapper').classList.add('hidden');
+        }
+      }
+
+      currentStep = step;
+      document.getElementById('wizard-step-1').classList.toggle('hidden', step !== 1);
+      document.getElementById('wizard-step-2').classList.toggle('hidden', step !== 2);
+      document.getElementById('wizard-step-3').classList.toggle('hidden', step !== 3);
+
+      for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById(`step-dot-${i}`);
+        if (i <= step) {
+          dot.className = "w-10 h-10 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center font-bold";
+        } else {
+          dot.className = "w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold";
+        }
+      }
+    }
+
+    function renderTimeSlots() {
+      const grid = document.getElementById('time-slots-grid');
+      grid.innerHTML = timeSlots.map(t => `
+        <button
+          type="button"
+          onclick="selectTime('${t}')"
+          id="time-btn-${t.replace(':', '')}"
+          class="py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-secondary hover:text-secondary-foreground transition-colors"
+        >
+          ${t}
+        </button>
+      `).join('');
+    }
+
+    function selectTime(t) {
+      selectedTime = t;
+      document.querySelectorAll('#time-slots-grid button').forEach(b => {
+        b.className = "py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-secondary hover:text-secondary-foreground transition-colors";
+      });
+      const btn = document.getElementById(`time-btn-${t.replace(':', '')}`);
+      if (btn) btn.className = "py-2.5 px-4 bg-primary text-primary-foreground font-bold rounded-md text-sm";
+
+      updateSelectedSummary();
+    }
+
+    function renderCalendar() {
+      const year = calDate.getFullYear();
+      const month = calDate.getMonth();
+      const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+      document.getElementById('calendar-month-year').textContent = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysContainer = document.getElementById('calendar-days');
+      daysContainer.innerHTML = '';
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        daysContainer.appendChild(empty);
+      }
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateObj = new Date(year, month, day);
+        const dayOfWeek = dateObj.getDay();
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+        const isPast = dateObj < today;
+        const isWeekend = AGENDA_CONFIG.diasIndisponiveis.includes(dayOfWeek);
+        const isDisabled = isPast || isWeekend;
+
+        const dayEl = document.createElement('div');
+        dayEl.className = `calendar-day ${isDisabled ? 'disabled' : ''} ${selectedDate === dateStr ? 'selected' : ''}`;
+        dayEl.textContent = day;
+
+        if (!isDisabled) {
+          dayEl.addEventListener('click', () => {
+            selectedDate = dateStr;
+            renderCalendar();
+            updateSelectedSummary();
+          });
+        }
+
+        daysContainer.appendChild(dayEl);
+      }
+    }
+
+    function changeMonth(delta) {
+      calDate.setMonth(calDate.getMonth() + delta);
+      renderCalendar();
+    }
+
+    function updateSelectedSummary() {
+      const summaryBox = document.getElementById('selected-summary');
+      const summaryText = document.getElementById('selected-summary-text');
+      if (selectedDate && selectedTime) {
+        summaryBox.classList.remove('hidden');
+        summaryText.textContent = `${selectedDate} às ${selectedTime}`;
+      }
+    }
+
+    function handleFinish(e) {
+      e.preventDefault();
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const phone = document.getElementById('userPhone').value;
+      const notes = document.getElementById('notes').value;
+
+      const user = getCurrentUser();
+
+      const aptData = {
+        userId: user ? user.id : 'guest',
+        userName: name,
+        userEmail: email,
+        userPhone: phone,
+        type: selectedType,
+        date: selectedDate,
+        time: selectedTime,
+        address: selectedType === 'SITE' ? document.getElementById('address').value : '',
+        notes: notes
+      };
+
+      const saved = saveAppointment(aptData);
+      showToast('Agendamento realizado com sucesso!', 'success');
+
+      document.getElementById('wizard-form').classList.add('hidden');
+      const successView = document.getElementById('success-view');
+      successView.classList.remove('hidden');
+
+      document.getElementById('success-summary').innerHTML = `
+        <p class="text-sm"><strong>Cliente:</strong> ${saved.userName} (${saved.userEmail})</p>
+        <p class="text-sm"><strong>Data:</strong> ${saved.date} às ${saved.time}</p>
+        <p class="text-sm"><strong>Tipo:</strong> ${typeLabel(saved.type)}</p>
+        <p class="text-sm"><strong>Local:</strong> ${saved.type === 'OFFICE' ? 'No Escritório HAVREDESIGN' : saved.type === 'ONLINE' ? 'Online' : saved.address}</p>
+      `;
+    }
+  </script>
+</body>
+</html>

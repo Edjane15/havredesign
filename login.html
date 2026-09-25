@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar / Criar Conta - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-muted flex flex-col justify-between">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <!-- Header back link -->
+  <header class="p-6">
+    <a href="./index.html" class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+      ← Voltar ao site
+    </a>
+  </header>
+
+  <!-- Form Card -->
+  <main class="flex-1 flex items-center justify-center p-4">
+    <div class="w-full max-w-md space-y-6">
+      <div class="text-center">
+        <a href="./index.html" class="inline-block">
+          <div class="flex flex-col items-center">
+            <img
+              src="./logo.png"
+              onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+              alt="HAVREDESIGN"
+              width="200"
+              height="100"
+              class="w-48 md:w-56 h-auto"
+            />
+          </div>
+        </a>
+      </div>
+
+      <div class="bg-card border border-border shadow-lg rounded-xl overflow-hidden p-6">
+        <!-- Tabs Header -->
+        <div class="flex border-b border-border mb-6">
+          <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 py-3 text-center text-sm font-semibold border-b-2 border-primary text-primary">
+            Entrar
+          </button>
+          <button onclick="switchAuthTab('register')" id="auth-tab-register" class="flex-1 py-3 text-center text-sm font-medium border-b-2 border-transparent text-muted-foreground hover:text-foreground">
+            Criar Conta
+          </button>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="auth-form-login" class="space-y-4">
+          <form id="login-form" class="space-y-4">
+            <div class="space-y-1">
+              <label for="login-email" class="block text-sm font-medium text-foreground">E-mail</label>
+              <input id="login-email" type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <div class="space-y-1">
+              <label for="login-password" class="block text-sm font-medium text-foreground">Senha</label>
+              <input id="login-password" type="password" required placeholder="Sua senha" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors text-sm">
+              Entrar
+            </button>
+          </form>
+
+          <div class="pt-4 border-t border-border">
+            <button onclick="handleDemoLogin()" class="w-full py-2.5 border border-border rounded-md text-sm font-medium text-foreground hover:bg-muted transition-colors">
+              Conta Demo (Admin)
+            </button>
+          </div>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="auth-form-register" class="hidden space-y-4">
+          <form id="register-form" class="space-y-4">
+            <div class="space-y-1">
+              <label for="reg-name" class="block text-sm font-medium text-foreground">Nome Completo</label>
+              <input id="reg-name" type="text" required placeholder="Seu nome" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <div class="space-y-1">
+              <label for="reg-email" class="block text-sm font-medium text-foreground">E-mail</label>
+              <input id="reg-email" type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <div class="space-y-1">
+              <label for="reg-password" class="block text-sm font-medium text-foreground">Senha</label>
+              <input id="reg-password" type="password" required minlength="6" placeholder="Mínimo 6 caracteres" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <div class="space-y-1">
+              <label for="reg-confirm" class="block text-sm font-medium text-foreground">Confirmar Senha</label>
+              <input id="reg-confirm" type="password" required minlength="6" placeholder="Repita a senha" class="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors text-sm">
+              Criar Conta
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <p class="text-center text-xs text-muted-foreground">
+        Ao continuar, você concorda com nossos
+        <a href="./termos-uso.html" class="underline hover:text-foreground">Termos de Uso</a>
+        e
+        <a href="./politica-privacidade.html" class="underline hover:text-foreground">Política de Privacidade</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer class="p-6 text-center text-xs text-muted-foreground">
+    © HAVREDESIGN
+  </footer>
+
+  <script src="./js/app.js"></script>
+  <script>
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('auth-form-login');
+      const regForm = document.getElementById('auth-form-register');
+      const loginBtn = document.getElementById('auth-tab-login');
+      const regBtn = document.getElementById('auth-tab-register');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        loginBtn.className = "flex-1 py-3 text-center text-sm font-semibold border-b-2 border-primary text-primary";
+        regBtn.className = "flex-1 py-3 text-center text-sm font-medium border-b-2 border-transparent text-muted-foreground hover:text-foreground";
+      } else {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        regBtn.className = "flex-1 py-3 text-center text-sm font-semibold border-b-2 border-primary text-primary";
+        loginBtn.className = "flex-1 py-3 text-center text-sm font-medium border-b-2 border-transparent text-muted-foreground hover:text-foreground";
+      }
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+
+      const isAdmin = email.toLowerCase().includes('admin');
+      const user = {
+        id: `usr-${Date.now()}`,
+        name: email.split('@')[0],
+        email: email,
+        role: isAdmin ? 'ADMIN' : 'USER',
+        createdAt: new Date().toISOString()
+      };
+
+      setCurrentUser(user);
+      showToast(`Bem-vindo, ${user.name}!`, 'success');
+
+      setTimeout(() => {
+        window.location.href = isAdmin ? './admin.html' : './dashboard.html';
+      }, 500);
+    });
+
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const pass = document.getElementById('reg-password').value;
+      const conf = document.getElementById('reg-confirm').value;
+
+      if (pass !== conf) {
+        showToast('As senhas não coincidem!', 'error');
+        return;
+      }
+
+      const user = {
+        id: `usr-${Date.now()}`,
+        name: name,
+        email: email,
+        role: 'USER',
+        createdAt: new Date().toISOString()
+      };
+
+      setCurrentUser(user);
+      showToast(`Conta criada com sucesso!`, 'success');
+
+      setTimeout(() => {
+        window.location.href = './dashboard.html';
+      }, 500);
+    });
+
+    function handleDemoLogin() {
+      const adminUser = {
+        id: 'admin-001',
+        name: 'Administrador',
+        email: 'admin@havredesign.com',
+        role: 'ADMIN',
+        createdAt: new Date().toISOString()
+      };
+
+      setCurrentUser(adminUser);
+      showToast('Login Demo realizado como Administrador!', 'success');
+
+      setTimeout(() => {
+        window.location.href = './admin.html';
+      }, 500);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HAVRE Soluções - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-12 md:py-20 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl">
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+          HAVRE Soluções
+        </h1>
+        <p class="text-lg md:text-xl text-primary-foreground/80 max-w-2xl">
+          Soluções integradas, adaptadas às necessidades e às diferentes etapas de cada projeto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions Grid -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- HAVRE Genesis -->
+        <div id="solucao-genesis" class="bg-card border border-border rounded-lg p-6 flex flex-col shadow-sm">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2.5 py-1 rounded mb-4">Arquitetura</span>
+            <h2 class="font-serif text-xl text-foreground mb-2">HAVRE Genesis — Arquitetura de Raiz</h2>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+              Solução destinada ao desenvolvimento de projetos arquitetónicos de raiz, podendo incluir diagnóstico,
+              definição do programa, desenvolvimento do projeto e acompanhamento técnico, de acordo com o âmbito contratado.
+            </p>
+            <div class="mb-4">
+              <span class="text-base font-semibold text-secondary">Proposta personalizada</span>
+            </div>
+          </div>
+          <div class="space-y-2 mt-auto">
+            <button onclick="toggleSolution('sol-genesis')" class="w-full py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2">
+              <span>Conhecer solução</span>
+              <span id="sol-genesis-arrow">▼</span>
+            </button>
+            <div id="sol-genesis" class="hidden mt-4 pt-4 border-t border-border space-y-2 text-sm text-muted-foreground">
+              <p>✓ Diagnóstico</p>
+              <p>✓ Definição do programa</p>
+              <p>✓ Desenvolvimento do projeto</p>
+              <p>✓ Acompanhamento técnico</p>
+              <p class="text-xs italic">Conforme o âmbito contratado.</p>
+            </div>
+            <a href="./solicitar-projeto.html" class="inline-flex w-full items-center justify-center py-2.5 px-4 bg-secondary text-secondary-foreground rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors">
+              Solicitar proposta personalizada
+            </a>
+          </div>
+        </div>
+
+        <!-- HAVRE Evolution -->
+        <div id="solucao-evolution" class="bg-card border border-border rounded-lg p-6 flex flex-col shadow-sm">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2.5 py-1 rounded mb-4">Transformação</span>
+            <h2 class="font-serif text-xl text-foreground mb-2">HAVRE Evolution — Transformação de Espaços</h2>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+              Solução destinada à transformação, adaptação e valorização de espaços existentes, através de arquitetura,
+              design de interiores e serviços técnicos selecionados.
+            </p>
+            <div class="mb-4">
+              <span class="text-base font-semibold text-secondary">Proposta personalizada</span>
+            </div>
+          </div>
+          <div class="space-y-2 mt-auto">
+            <button onclick="toggleSolution('sol-evolution')" class="w-full py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2">
+              <span>Conhecer solução</span>
+              <span id="sol-evolution-arrow">▼</span>
+            </button>
+            <div id="sol-evolution" class="hidden mt-4 pt-4 border-t border-border space-y-2 text-sm text-muted-foreground">
+              <p>✓ Arquitetura</p>
+              <p>✓ Design de interiores</p>
+              <p>✓ Serviços técnicos selecionados</p>
+            </div>
+            <a href="./solicitar-projeto.html" class="inline-flex w-full items-center justify-center py-2.5 px-4 bg-secondary text-secondary-foreground rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors">
+              Solicitar proposta personalizada
+            </a>
+          </div>
+        </div>
+
+        <!-- HAVRE Ready -->
+        <div id="solucao-ready" class="bg-card border border-border rounded-lg p-6 flex flex-col shadow-sm">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2.5 py-1 rounded mb-4">Licenciamento</span>
+            <h2 class="font-serif text-xl text-foreground mb-2">HAVRE Ready — Regularização e Licenciamento</h2>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+              Solução destinada à preparação, organização, submissão e acompanhamento de processos de regularização
+              e licenciamento junto das entidades competentes.
+            </p>
+            <div class="mb-4">
+              <span class="text-base font-semibold text-secondary">Proposta personalizada</span>
+            </div>
+          </div>
+          <div class="space-y-2 mt-auto">
+            <button onclick="toggleSolution('sol-ready')" class="w-full py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2">
+              <span>Conhecer solução</span>
+              <span id="sol-ready-arrow">▼</span>
+            </button>
+            <div id="sol-ready" class="hidden mt-4 pt-4 border-t border-border space-y-2 text-sm text-muted-foreground">
+              <p>✓ Preparação do processo</p>
+              <p>✓ Organização documental</p>
+              <p>✓ Submissão</p>
+              <p>✓ Acompanhamento junto das entidades competentes</p>
+            </div>
+            <a href="./solicitar-projeto.html" class="inline-flex w-full items-center justify-center py-2.5 px-4 bg-secondary text-secondary-foreground rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors">
+              Solicitar proposta personalizada
+            </a>
+          </div>
+        </div>
+
+        <!-- HAVRE Guardian -->
+        <div id="solucao-guardian" class="bg-card border border-border rounded-lg p-6 flex flex-col shadow-sm">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2.5 py-1 rounded mb-4">Acompanhamento</span>
+            <h2 class="font-serif text-xl text-foreground mb-2">HAVRE Guardian — Fiscalização e Acompanhamento Técnico</h2>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+              Solução destinada ao apoio técnico durante a execução da obra, através de fiscalização, consultoria e
+              outras modalidades de acompanhamento, de acordo com o âmbito contratado.
+            </p>
+            <div class="mb-4">
+              <span class="text-base font-semibold text-secondary">Proposta personalizada</span>
+            </div>
+          </div>
+          <div class="space-y-2 mt-auto">
+            <button onclick="toggleSolution('sol-guardian')" class="w-full py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2">
+              <span>Conhecer solução</span>
+              <span id="sol-guardian-arrow">▼</span>
+            </button>
+            <div id="sol-guardian" class="hidden mt-4 pt-4 border-t border-border space-y-2 text-sm text-muted-foreground">
+              <p>✓ Fiscalização</p>
+              <p>✓ Consultoria</p>
+              <p>✓ Outras modalidades de acompanhamento</p>
+              <p class="text-xs italic">Conforme o âmbito contratado.</p>
+            </div>
+            <a href="./solicitar-projeto.html" class="inline-flex w-full items-center justify-center py-2.5 px-4 bg-secondary text-secondary-foreground rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors">
+              Solicitar proposta personalizada
+            </a>
+          </div>
+        </div>
+
+        <!-- HAVRE Prime -->
+        <div id="solucao-prime" class="bg-card border border-border rounded-lg p-6 flex flex-col shadow-sm">
+          <div class="flex-1">
+            <span class="inline-block text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-2.5 py-1 rounded mb-4">Exclusiva</span>
+            <h2 class="font-serif text-xl text-foreground mb-2">HAVRE Prime — Solução Exclusiva</h2>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+              Solução personalizada para projetos que exigem a articulação de vários serviços e um nível mais elevado
+              de coordenação, com âmbito definido de acordo com as características de cada contratação.
+            </p>
+            <div class="mb-4">
+              <span class="text-base font-semibold text-secondary">Proposta personalizada</span>
+            </div>
+          </div>
+          <div class="space-y-2 mt-auto">
+            <button onclick="toggleSolution('sol-prime')" class="w-full py-2.5 px-4 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2">
+              <span>Conhecer solução</span>
+              <span id="sol-prime-arrow">▼</span>
+            </button>
+            <div id="sol-prime" class="hidden mt-4 pt-4 border-t border-border space-y-2 text-sm text-muted-foreground">
+              <p>✓ Articulação de vários serviços</p>
+              <p>✓ Coordenação de âmbito elevado</p>
+              <p>✓ Âmbito definido por contratação</p>
+            </div>
+            <a href="./solicitar-projeto.html" class="inline-flex w-full items-center justify-center py-2.5 px-4 bg-secondary text-secondary-foreground rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors">
+              Solicitar proposta personalizada
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Notice -->
+      <div class="mt-12 bg-muted p-6 rounded-lg border border-border text-sm text-muted-foreground space-y-2">
+        <h2 class="font-serif text-lg text-foreground font-semibold">Observações Importantes</h2>
+        <p>• Os honorários são calculados segundo os serviços, as etapas e os recursos efetivamente contratados.</p>
+        <p>• Cada proposta é definida de acordo com o âmbito, a complexidade, a localização e o prazo do projeto.</p>
+        <p>• Deslocações fora da província de Luanda poderão implicar custos complementares, confirmados previamente.</p>
+        <p>• O início dos trabalhos está sujeito à aceitação da proposta e à formalização da contratação.</p>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-12">
+        <h2 class="font-serif text-2xl text-foreground mb-4">Solicite uma proposta personalizada</h2>
+        <p class="text-muted-foreground mb-6 max-w-xl mx-auto">
+          Entre em contacto connosco para uma análise detalhada do seu projeto e descubra a solução mais adequada.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="./solicitar-projeto.html" class="inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors">
+            Solicitar orçamento
+          </a>
+          <a href="./agendar.html" class="inline-flex items-center justify-center px-8 py-3.5 border border-border text-foreground font-medium rounded-md hover:bg-card transition-colors">
+            Agendar conversa
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('orcamento');
+    });
+
+    function toggleSolution(id) {
+      const el = document.getElementById(id);
+      const arrow = document.getElementById(`${id}-arrow`);
+      if (el) {
+        const isHidden = el.classList.contains('hidden');
+        el.classList.toggle('hidden');
+        if (arrow) arrow.textContent = isHidden ? '▲' : '▼';
+      }
+    }
+  </script>
+</body>
+</html>

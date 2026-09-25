@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nossos Serviços - HAVREDESIGN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative py-14 md:py-24 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+          Nossos Serviços
+        </h1>
+        <p class="text-xl text-primary-foreground/80">
+          Serviços principais e complementares para transformar o seu espaço, adaptados a cada fase do projeto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços Principais -->
+  <section class="py-14 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground mb-4">Serviços Principais</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          As principais áreas de atuação da HAVREDESIGN. Podem ser contratados separadamente ou integrados numa HAVRE Solução.
+        </p>
+      </div>
+      <div id="services-main-list" class="space-y-24">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços Complementares -->
+  <section class="py-14 md:py-24 bg-muted">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground mb-4">Serviços Complementares</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          Serviços destinados a responder a necessidades específicas do projeto. Podem ser contratados separadamente ou associados a outros serviços.
+        </p>
+      </div>
+      <div id="services-complementary-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-14 md:py-24 bg-secondary">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="font-serif text-3xl md:text-4xl text-secondary-foreground mb-4">
+        Não Encontrou o Que Procura?
+      </h2>
+      <p class="text-secondary-foreground/80 max-w-2xl mx-auto mb-8">
+        Entre em contacto connosco e partilhe a sua ideia.
+        Na HAVREDESIGN desenvolvemos soluções personalizadas, pensadas para responder às necessidades, identidade e objetivos de cada projeto.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="./contacto.html" class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 transition-colors">
+          Fale Conosco
+        </a>
+        <a href="./agendar.html" class="inline-flex items-center justify-center px-8 py-3.5 border border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors">
+          Agendar conversa
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('servicos');
+
+      const services = getServices().filter(s => s.active).sort((a, b) => a.order - b.order);
+      const mainServices = services.filter(s => s.group !== 'complementar');
+      const complementaryServices = services.filter(s => s.group === 'complementar');
+
+      const mainContainer = document.getElementById('services-main-list');
+      if (mainContainer) {
+        mainContainer.innerHTML = mainServices.map((service, index) => {
+          const isEven = index % 2 === 0;
+          const includes = Array.isArray(service.includes) ? service.includes : [];
+
+          return `
+            <div id="${service.slug}" class="grid lg:grid-cols-2 gap-12 items-center">
+              <div class="space-y-6 ${!isEven ? 'lg:order-2' : ''}">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+                    ${renderLucideIcon(service.icon, "w-7 h-7")}
+                  </div>
+                  <h3 class="font-serif text-2xl md:text-3xl text-foreground">${service.title}</h3>
+                </div>
+                <p class="text-muted-foreground leading-relaxed text-lg">
+                  ${service.description}
+                </p>
+                ${includes.length ? `
+                <div class="space-y-3">
+                  <h4 class="font-medium text-foreground">O que inclui:</h4>
+                  <ul class="grid sm:grid-cols-2 gap-2">
+                    ${includes.map(item => `
+                      <li class="flex items-center gap-2 text-sm text-muted-foreground">
+                        <svg class="w-4 h-4 text-secondary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        ${item}
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+                ` : ''}
+                <a href="./solicitar-projeto.html" class="inline-flex items-center justify-center px-6 py-3 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors mt-4">
+                  Solicitar orçamento
+                  <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+              </div>
+              <div class="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted shadow-md ${!isEven ? 'lg:order-1' : ''}">
+                ${service.imageUrl
+                  ? `<img loading="lazy" decoding="async" src="${service.imageUrl}" alt="${service.title}" class="object-cover w-full h-full" onerror="this.src='./assets/hero-section.png'" />`
+                  : `<div class="w-full h-full flex items-center justify-center text-secondary">${renderLucideIcon(service.icon, "w-16 h-16")}</div>`}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const complementaryContainer = document.getElementById('services-complementary-grid');
+      if (complementaryContainer) {
+        complementaryContainer.innerHTML = complementaryServices.map(service => `
+          <div id="${service.slug}" class="bg-card border border-border rounded-lg p-6 flex flex-col gap-3 shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary shrink-0">
+                ${renderLucideIcon(service.icon, "w-5 h-5")}
+              </div>
+              <h3 class="font-serif text-xl text-foreground leading-snug">${service.title}</h3>
+            </div>
+            <p class="text-sm text-muted-foreground leading-relaxed flex-1">
+              ${service.description}
+            </p>
+            <a href="./solicitar-projeto.html" class="inline-flex items-center justify-center px-4 py-2 border border-border rounded-md text-sm font-medium text-foreground hover:bg-muted transition-colors">
+              Solicitar orçamento
+            </a>
+          </div>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

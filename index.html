@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HAVREDESIGN - Arquitetura como Refúgio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Cores do tema — necessárias para as classes com opacidade funcionarem
+       (ex.: text-primary-foreground/80, hover:bg-secondary/90, bg-background/95).
+       Sem isto, o Tailwind CDN ignora a variante /NN e a cor fica herdada. */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F8F4ED',
+            foreground: '#0F253F',
+            card: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            popover: { DEFAULT: '#FFFFFF', foreground: '#0F253F' },
+            primary: { DEFAULT: '#0F253F', foreground: '#FFFFFF' },
+            secondary: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            muted: { DEFAULT: '#EFECE6', foreground: '#6B7280' },
+            accent: { DEFAULT: '#C9B29E', foreground: '#0F253F' },
+            destructive: { DEFAULT: '#EF4444', foreground: '#FFFFFF' },
+            border: '#E5E0D8',
+            input: '#E5E0D8',
+            ring: '#C9B29E'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="./favicon.png" sizes="any" />
+  <link rel="icon" href="./icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-icon.png" />
+</head>
+<body class="min-h-screen bg-background text-foreground">
+
+  <!-- Loading screen com logótipo -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <img
+      class="page-loader__logo"
+      src="./logo.png"
+      onerror="this.onerror=null;this.src='./LOGO-HAVREDESIGN.jpeg'"
+      alt="HAVREDESIGN"
+      width="220"
+      height="110"
+    />
+    <div class="page-loader__track" aria-hidden="true"><span class="page-loader__bar"></span></div>
+    <span class="sr-only">A carregar…</span>
+  </div>
+
+  <div id="header-mount"></div>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center bg-primary">
+    <div class="absolute inset-0 bg-primary/95">
+      <div
+        class="absolute inset-0 opacity-20"
+        style="background-image: url('./assets/hero-section.png'); background-size: cover; background-position: center;"
+      ></div>
+    </div>
+    <div class="relative container mx-auto px-4 py-14 md:py-24">
+      <div class="max-w-3xl">
+        <h1 class="font-serif text-2xl md:text-4xl lg:text-6xl text-primary-foreground leading-tight mb-6">
+          <span class="italic">HAVREDESIGN - Arquitetura como refúgio</span>
+        </h1>
+        <p class="text-lg md:text-xl text-primary-foreground mb-8 max-w-xl">
+          Criamos projetos arquitetónicos que unem funcionalidade, identidade, conforto e sofisticação, concebendo espaços que acolhem e inspiram.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="./solicitar-projeto.html" class="inline-flex items-center justify-center px-8 py-4 bg-secondary text-secondary-foreground font-medium rounded-md hover:bg-secondary/90 transition-colors text-base">
+            Solicitar orçamento
+            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+          <a href="./agendar.html" class="inline-flex items-center justify-center px-8 py-4 border border-primary-foreground/30 text-white font-medium rounded-md hover:bg-white/10 transition-colors text-base">
+            Agendar conversa
+          </a>
+          <a href="./portfolio.html" id="hero-portfolio-cta" class="inline-flex items-center justify-center px-8 py-4 text-white/80 font-medium rounded-md hover:text-white hover:bg-white/10 transition-colors text-base">
+            Ver portefólio
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-14 md:py-24 bg-muted">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="relative aspect-[4/3] rounded-lg overflow-hidden shadow-md">
+          <img loading="lazy" decoding="async" src="./assets/page-image/sobre.png"
+            alt="Interior elegante"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <div class="space-y-6">
+          <h2 class="font-serif text-3xl md:text-4xl text-foreground">Sobre</h2>
+          <p class="text-muted-foreground leading-relaxed">
+            A HAVREDESIGN é um atelier de arquitetura e design que acredita que os espaços têm o poder de transformar a forma como as pessoas vivem, trabalham e se relacionam com o mundo.
+          </p>
+          <p class="text-muted-foreground leading-relaxed">
+            Com uma abordagem contemporânea, funcional e sensível, desenvolvemos projetos que unem estética, criatividade e sofisticação, criando ambientes pensados para acolher, inspirar e proporcionar bem-estar.
+          </p>
+          <p class="text-muted-foreground leading-relaxed">
+            Mais do que projetar espaços, criamos experiências com identidade, equilíbrio e propósito — sempre com um olhar atento aos detalhes, à inovação e à harmonia entre funcionalidade e beleza.
+          </p>
+          <a href="./sobre.html" class="inline-flex items-center justify-center px-6 py-3 border border-border text-foreground rounded-md hover:bg-card transition-colors mt-4 font-medium">
+            Saiba Mais
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-14 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground mb-4">Nossos Serviços</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">
+          Soluções personalizadas de arquitetura, interiores e apoio técnico especializado para transformar o seu espaço.
+        </p>
+      </div>
+      <div id="home-services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+      <div class="text-center mt-12">
+        <a href="./servicos.html" class="inline-flex items-center justify-center px-6 py-3 border border-border text-foreground rounded-md hover:bg-muted transition-colors font-medium">
+          Conhecer serviços
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Soluções para diferentes necessidades -->
+  <section class="py-14 md:py-24 bg-muted">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16 space-y-4">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground">Soluções para diferentes necessidades</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">
+          Adaptamos a nossa abordagem ao tipo de projeto e ao momento de vida de cada cliente.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-card border border-border rounded-lg p-8 space-y-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H9m4 0V7m0 0h4m-4 0H9"/></svg>
+          </div>
+          <h3 class="font-serif text-xl text-foreground">Investimento imobiliário residencial</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Projetos pensados para valorizar o investimento, com decisão técnica informada e atenção ao retorno do capital imobilizado.
+          </p>
+        </div>
+        <div class="bg-card border border-border rounded-lg p-8 space-y-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 00-1 1m-6 0h6"/></svg>
+          </div>
+          <h3 class="font-serif text-xl text-foreground">Habitação própria</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Espaços que respondem à forma como vive e se identifica, com conforto, identidade e decisões adequadas ao orçamento familiar.
+          </p>
+        </div>
+        <div class="bg-card border border-border rounded-lg p-8 space-y-4 shadow-sm">
+          <div class="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <h3 class="font-serif text-xl text-foreground">Comércio e serviços</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Ambientes que reforçam a identidade da marca, organizam fluxos e valorizam a experiência de quem entra no espaço.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Preview -->
+  <section class="py-14 md:py-24 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl mb-4">Processo de Trabalho</h2>
+        <p class="text-primary-foreground/80 max-w-2xl mx-auto">
+          Conheça as etapas que seguimos para transformar seu espaço em um ambiente único.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center mx-auto text-2xl font-serif font-bold">
+            01
+          </div>
+          <h3 class="font-serif text-xl">Contacto e proposta</h3>
+          <p class="text-primary-foreground/70 text-sm">Recolhemos a informação, avaliamos a oportunidade e apresentamos uma proposta comercial personalizada.</p>
+        </div>
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center mx-auto text-2xl font-serif font-bold">
+            02
+          </div>
+          <h3 class="font-serif text-xl">Planeamento</h3>
+          <p class="text-primary-foreground/70 text-sm">Organizamos a informação, as atividades, os prazos e os recursos previstos em cada proposta.</p>
+        </div>
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center mx-auto text-2xl font-serif font-bold">
+            03
+          </div>
+          <h3 class="font-serif text-xl">Desenvolvimento e entrega</h3>
+          <p class="text-primary-foreground/70 text-sm">Desenvolvemos e coordenamos o serviço, verificamos os elementos e entregamos os resultados finais.</p>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <a href="./processo.html" class="inline-flex items-center justify-center px-6 py-3 border border-primary-foreground/30 text-white rounded-md hover:bg-white/10 transition-colors font-medium">
+          Ver Processo Completo
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Preview -->
+  <section class="py-14 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground mb-4">Portfólio</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">
+          Conheça alguns dos projetos que realizamos e inspire-se.
+        </p>
+      </div>
+      <div id="home-portfolio-grid" class="grid md:grid-cols-2 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+      <div class="text-center mt-12">
+        <a href="./portfolio.html" class="inline-flex items-center justify-center px-6 py-3 border border-border text-foreground rounded-md hover:bg-muted transition-colors font-medium">
+          Ver portefólio
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials — SECÇÃO OCULTA até os testemunhos serem atualizados (briefing secção 11) -->
+  <section class="hidden py-14 md:py-24 bg-muted" data-testimonials="pending-update">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="font-serif text-3xl md:text-4xl text-foreground mb-4">O Que Dizem Nossos Clientes</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">
+          A satisfação dos nossos clientes é a nossa maior recompensa.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-card border-0 shadow-sm rounded-lg p-6 space-y-4">
+          <div class="flex gap-1 text-secondary">
+            ★★★★★
+          </div>
+          <p class="text-muted-foreground italic">"A HAVREDESIGN acompanhou-nos desde o anteprojeto até à obra. Desenhos claros, prazos cumpridos e uma comunicação excelente durante toda a fiscalização."</p>
+          <div class="pt-4 border-t border-border">
+            <p class="font-medium text-foreground">Família dos Santos</p>
+            <p class="text-sm text-muted-foreground">Residência unifamiliar · Talatona</p>
+          </div>
+        </div>
+        <div class="bg-card border-0 shadow-sm rounded-lg p-6 space-y-4">
+          <div class="flex gap-1 text-secondary">
+            ★★★★★
+          </div>
+          <p class="text-muted-foreground italic">"Reorganizámos o escritório com mais luz e mais concentração, e o acompanhamento na execução evitou surpresas. O projeto foi entregue no prazo combinado."</p>
+          <div class="pt-4 border-t border-border">
+            <p class="font-medium text-foreground">Direção de Empresa</p>
+            <p class="text-sm text-muted-foreground">Escritório · Talatona</p>
+          </div>
+        </div>
+        <div class="bg-card border-0 shadow-sm rounded-lg p-6 space-y-4">
+          <div class="flex gap-1 text-secondary">
+            ★★★★★
+          </div>
+          <p class="text-muted-foreground italic">"Do mobiliário à medida à escolha dos acabamentos, tudo foi pensado para o nosso dia a dia. O apartamento ficou acolhedor e fácil de viver."</p>
+          <div class="pt-4 border-t border-border">
+            <p class="font-medium text-foreground">Cliente Particular</p>
+            <p class="text-sm text-muted-foreground">Design de Interiores · Miramar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-14 md:py-24 bg-secondary">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="font-serif text-3xl md:text-4xl text-secondary-foreground mb-4">
+        Pronto para Transformar seu Espaço?
+      </h2>
+      <p class="text-secondary-foreground/80 max-w-2xl mx-auto mb-8">
+        Agende uma consulta gratuita e descubra como podemos transformar seus sonhos em realidade.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="./agendar.html" class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 transition-colors">
+          Agendar conversa
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        </a>
+        <a href="./solicitar-projeto.html" class="inline-flex items-center justify-center px-8 py-3.5 border border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors">
+          Solicitar orçamento
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+  <div id="whatsapp-mount"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeader('inicio');
+
+      // Populate Home Services (Top 3)
+      const servicesGrid = document.getElementById('home-services-grid');
+      if (servicesGrid) {
+        const services = getServices().filter(s => s.active && s.group !== 'complementar').sort((a, b) => a.order - b.order).slice(0, 3);
+        servicesGrid.innerHTML = services.map(service => `
+          <div class="group hover:shadow-lg transition-shadow bg-secondary/30 border-0 rounded-lg p-6 space-y-4">
+            <div class="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground">
+              ${renderLucideIcon(service.icon, "w-6 h-6")}
+            </div>
+            <h3 class="font-serif text-xl text-foreground">${service.title}</h3>
+            <p class="text-sm text-muted-foreground">${service.description}</p>
+          </div>
+        `).join('');
+      }
+
+      // "Ver portefólio" no hero só aparece se houver projetos publicados
+      const heroPortfolioCta = document.getElementById('hero-portfolio-cta');
+      if (heroPortfolioCta && getPortfolio().length === 0) {
+        heroPortfolioCta.classList.add('hidden');
+      }
+
+      // Populate Home Portfolio (Featured items)
+      const portfolioGrid = document.getElementById('home-portfolio-grid');
+      if (portfolioGrid) {
+        const portfolio = getPortfolio().slice(0, 4);
+        if (portfolio.length > 0) {
+          const mainProject = portfolio[0];
+          const subProjects = portfolio.slice(1, 4);
+
+          portfolioGrid.innerHTML = `
+            <a href="./portfolio-detalhe.html?id=${mainProject.id}" class="relative aspect-[4/3] rounded-lg overflow-hidden group block">
+              <img loading="lazy" decoding="async" src="${mainProject.imageUrl}" alt="${mainProject.title}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6">
+                <div>
+                  <span class="text-secondary text-sm">${mainProject.category}</span>
+                  <h3 class="font-serif text-xl text-primary-foreground">${mainProject.title}</h3>
+                </div>
+              </div>
+            </a>
+            <div class="grid grid-cols-2 gap-6">
+              ${subProjects.map((p, idx) => `
+                <a href="./portfolio-detalhe.html?id=${p.id}" class="relative rounded-lg overflow-hidden group block ${idx === 2 ? 'col-span-2' : ''}">
+                  <div class="${idx === 2 ? 'aspect-[4/3]' : 'aspect-square'} relative">
+                    <img loading="lazy" decoding="async" src="${p.imageUrl}" alt="${p.title}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+                      <div>
+                        <span class="text-secondary text-xs">${p.category}</span>
+                        <h3 class="font-serif text-sm text-primary-foreground">${p.title}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              `).join('')}
+            </div>
+          `;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
